@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xsd:element name="ArrayOfStationPreset">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" name="StationPreset">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="Key" type="xsd:string" />
+              <xsd:element name="Name" type="xsd:string" />
+              <xsd:element name="Description" type="xsd:string" />
+              <xsd:element name="MachineName" type="xsd:string" />
+              <xsd:element name="Workgroup" type="xsd:string" />
+              <xsd:element name="Adapter" type="xsd:string" />
+              <xsd:element name="IP" type="xsd:string" />
+              <xsd:element name="Mask" type="xsd:string" />
+              <xsd:element name="Gateway" type="xsd:string" />
+              <xsd:element name="DNS" type="xsd:string" />
+              <xsd:element name="Param" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="supportedRuntime">
+    <xsd:complexType>
+        <xsd:attribute name="version" type="xsd:string" use="optional" />
+        <xsd:attribute name="sku" type="xsd:string" use="optional" />
+    </xsd:complexType>
+  </xsd:element>
+</xs:schema>

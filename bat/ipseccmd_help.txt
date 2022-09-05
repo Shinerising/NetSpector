@@ -1,0 +1,24 @@
+
+POTF_VERSION
+USAGE:
+ipseccmd \\machinename -f FilterList -n NegotiationMethodList -t TunnelAddr
+         -a AuthMethodList -1s SecurityMethodList -1k MMRekeyTime
+         -1e SoftSAExpirationTime -soft -confirm [-dialup OR -lan]
+         {-w Location -p PolicyName:PollInterval -r RuleName [-x OR -y] -o}
+     Creates or modifies IPSec policy.
+
+ipseccmd \\machinename show gpo filters policies auth stats sas all
+     Displays current IPSec configuration.
+
+ipseccmd \\machinename set [logike OR dontlogike]
+     Turns on/off IKE logging.
+
+ipseccmd \\machinename [import OR export] Location FileName
+     Imports or exports a static policy file.
+
+ipseccmd -file FileName
+     Executes a file containing regular static or dynamic ipseccmd commands.
+
+For extended usage, run: ipseccmd -?
+
+The command completed successfully.
