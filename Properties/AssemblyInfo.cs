@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("TW工作站设备网络配置工具")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("北京全路通信信号研究设计院集团有限公司")]
-[assembly: AssemblyProduct("TW工作站设备网络配置工具")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCompany("CRSCD")]
+[assembly: AssemblyProduct("TW系统辅助软件")]
+[assembly: AssemblyCopyright("© 2022 Apollo Wayne")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
