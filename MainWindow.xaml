@@ -291,6 +291,27 @@
                     </StackPanel>
                 </WrapPanel>
             </TabItem>
+            <TabItem Header="系统服务管理">
+                <StackPanel Width="528" Margin="0,4">
+                    <Label Content="常见可关闭系统服务" Style="{StaticResource Label_Separator}" Width="528" Margin="0,4" Padding="8,0"/>
+                    <ItemsControl ItemsSource="{x:Static local:SystemServiceManager.ServiceList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Width="528" Margin="0,4"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Style="{StaticResource OptionPanel}" Width="504">
+                                    <Label Content="{Binding Name}" Width="180"/>
+                                    <TextBox Text="{Binding Description}" Width="232" IsReadOnly="True"/>
+                                    <Button Content="启用服务" Margin="12,0,0,0" Width="80"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal" Height="40" Margin="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <Button Margin="4" Padding="12,0" Content="重新启动系统" Click="Reboot_Click"/>
