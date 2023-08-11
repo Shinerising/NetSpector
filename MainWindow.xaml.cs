@@ -674,5 +674,41 @@ namespace NetSpector
 
             Cursor = Cursors.Arrow;
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tabControl = sender as TabControl;
+            if (tabControl.SelectedIndex == 3)
+            {
+                SystemServiceManager.RefreshAllServiceStatus();
+            }
+        }
+        private void ServiceEnable_Click(object sender, RoutedEventArgs e)
+        {
+            Cursor = Cursors.Wait;
+
+            if (!((sender as FrameworkElement).DataContext is ServiceItem service))
+            {
+                return;
+            }
+            SystemServiceManager.EnableService(service);
+            SystemServiceManager.RefreshServiceStatus(service);
+
+
+            Cursor = Cursors.Arrow;
+        }
+        private void ServiceDisable_Click(object sender, RoutedEventArgs e)
+        {
+            Cursor = Cursors.Wait;
+
+            if (!((sender as FrameworkElement).DataContext is ServiceItem service))
+            {
+                return;
+            }
+            SystemServiceManager.DisableService(service);
+            SystemServiceManager.RefreshServiceStatus(service);
+
+            Cursor = Cursors.Arrow;
+        }
     }
 }

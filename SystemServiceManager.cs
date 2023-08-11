@@ -3,20 +3,44 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows;
+using System.ComponentModel;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NetSpector
 {
-    public class ServiceItem
+    public class ServiceItem : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 属性变化时的事件处理
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// 通知UI更新数据的方法
+        /// </summary>
+        /// <typeparam name="T">泛型参数</typeparam>
+        /// <param name="obj">以待更新项目为属性的匿名类实例</param>
+        protected void Notify<T>(T obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            foreach (PropertyInfo property in typeof(T).GetProperties())
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property.Name));
+            }
+        }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ServiceName { get; set; }
-        public bool IsValid { get; set; }
-        public bool IsEnabled { get; set; }
+        public bool IsValid { get; set; } = false;
+        public bool IsEnabled { get; set; } = false;
         public int DefaultValue { get; set; }
         public void Refresh()
         {
-
+            Notify(new { IsValid, IsEnabled });
         }
     }
     public static class SystemServiceManager
@@ -70,7 +94,7 @@ namespace NetSpector
                 Name = "Windows Search",
                 Description = "Windows 系统搜索",
                 ServiceName = "WSearch",
-                DefaultValue = 2,
+                DefaultValue = 0,
             },
             new ServiceItem()
             {
@@ -80,13 +104,73 @@ namespace NetSpector
                 DefaultValue = 3,
             },
         };
+        private static bool IsLoading = false;
+        public static void RefreshAllServiceStatus()
+        {
+            if (IsLoading)
+            {
+                return;
+            }
+            Task.Factory.StartNew(() =>
+            {
+                IsLoading = true;
+                foreach (var service in ServiceList)
+                {
+                    try
+                    {
+                        service.IsEnabled = !GetServiceDisabledStatus(service);
+                        service.IsValid = true;
+                    }
+                    catch
+                    {
+                        service.IsEnabled = false;
+                        service.IsValid = false;
+                    }
+                    service.Refresh();
+                }
+                IsLoading = false;
+            });
+        }
+        public static void RefreshServiceStatus(ServiceItem service)
+        {
+            try
+            {
+                service.IsEnabled = !GetServiceDisabledStatus(service);
+                service.IsValid = true;
+            }
+            catch
+            {
+                service.IsEnabled = false;
+                service.IsValid = false;
+            }
+            service.Refresh();
+        }
+        public static bool GetServiceDisabledStatus(ServiceItem service)
+        {
+            string sh = $"/C sc qc {service.ServiceName} | findstr START_TYPE";
+            string result = RunCommand(sh);
+            if (result.Contains("4"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static void EnableService(ServiceItem service)
         {
             try
             {
-                string method = "boot";
+                string method = "auto";
                 switch (service.DefaultValue)
                 {
+                    case 0:
+                        method = "auto";
+                        break;
+                    case 1:
+                        method = "boot";
+                        break;
                     case 2:
                         method = "system";
                         break;

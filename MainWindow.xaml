@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NetSpector"
         mc:Ignorable="d"
-        Title="TW工作站设备网络配置工具" SizeToContent="WidthAndHeight" ResizeMode="NoResize" d:DataContext="{x:Static local:NetworkSetting.PreviewInstance}" DataContext="{x:Static local:NetworkSetting.Instance}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Icon="app.ico" FontSize="12" FontFamily="Microsoft Yahei, 宋体" TextOptions.TextFormattingMode="Display">
+        Title="TW工作站系统快速配置工具" SizeToContent="WidthAndHeight" ResizeMode="NoResize" d:DataContext="{x:Static local:NetworkSetting.PreviewInstance}" DataContext="{x:Static local:NetworkSetting.Instance}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Icon="app.ico" FontSize="12" FontFamily="Microsoft Yahei, 宋体" TextOptions.TextFormattingMode="Display">
     <Window.Resources>
         <Style TargetType="TabItem">
             <Style.Triggers>
@@ -62,7 +62,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TabControl Margin="8,8,8,48" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+        <TabControl Margin="8,8,8,48" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="本地网络接口配置">
                 <WrapPanel Width="528" Margin="0,4">
                     <Label Content="计算机属性" Style="{StaticResource Label_Separator}" Width="528" Margin="0,4" Padding="8,0"/>
@@ -294,7 +294,7 @@
             <TabItem Header="系统服务管理">
                 <StackPanel Width="528" Margin="0,4">
                     <Label Content="常见可关闭系统服务" Style="{StaticResource Label_Separator}" Width="528" Margin="0,4" Padding="8,0"/>
-                    <ItemsControl ItemsSource="{x:Static local:SystemServiceManager.ServiceList}">
+                    <ItemsControl ItemsSource="{x:Static local:SystemServiceManager.ServiceList}" Grid.IsSharedSizeScope="True">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Width="528" Margin="0,4"/>
@@ -302,11 +302,28 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Style="{StaticResource OptionPanel}" Width="504">
-                                    <Label Content="{Binding Name}" Width="180"/>
-                                    <TextBox Text="{Binding Description}" Width="232" IsReadOnly="True"/>
-                                    <Button Content="启用服务" Margin="12,0,0,0" Width="80"/>
-                                </StackPanel>
+                                <Grid Width="504" Height="24" Margin="12 8" IsEnabled="{Binding IsValid}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Name"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="{Binding Description}" Margin="0,0,12,0"/>
+                                    <TextBox Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" IsReadOnly="True"/>
+                                    <Label Grid.Column="2" x:Name="Label_Enable" Content="已启用" Foreground="LimeGreen" Visibility="Collapsed" Margin="12,0,0,0"/>
+                                    <Label Grid.Column="2" x:Name="Label_Disable" Content="已禁用" Foreground="DarkRed" Margin="12,0,0,0"/>
+                                    <Button Grid.Column="3" x:Name="Button_Enable" Content="启用服务" Margin="12,0,0,0" Width="80" Click="ServiceEnable_Click"/>
+                                    <Button Grid.Column="3" x:Name="Button_Disable" Content="禁用服务" Visibility="Collapsed" Margin="12,0,0,0" Width="80" Click="ServiceDisable_Click"/>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                                        <Setter TargetName="Button_Enable" Property="Visibility" Value="Collapsed"/>
+                                        <Setter TargetName="Button_Disable" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="Label_Enable" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="Label_Disable" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

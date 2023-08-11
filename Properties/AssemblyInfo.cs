@@ -7,12 +7,12 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("TW工作站设备网络配置工具")]
+[assembly: AssemblyTitle("TW工作站系统快速配置工具")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CRSCD")]
 [assembly: AssemblyProduct("TW系统辅助软件")]
-[assembly: AssemblyCopyright("© 2022 Apollo Wayne")]
+[assembly: AssemblyCopyright("© 2023 Apollo Wayne")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
