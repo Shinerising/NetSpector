@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace NetSpector
 {
+    /// <summary>
+    /// Windows服务描述
+    /// </summary>
     public class ServiceItem : INotifyPropertyChanged
     {
         /// <summary>
@@ -32,12 +35,33 @@ namespace NetSpector
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property.Name));
             }
         }
+        /// <summary>
+        /// 项目名称
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 服务摘要
+        /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Windows服务注册名
+        /// </summary>
         public string ServiceName { get; set; }
+        /// <summary>
+        /// 服务是否存在
+        /// </summary>
         public bool IsValid { get; set; } = false;
+        /// <summary>
+        /// 服务是否启用
+        /// </summary>
         public bool IsEnabled { get; set; } = false;
+        /// <summary>
+        /// 服务默认启动方式
+        /// </summary>
         public int DefaultValue { get; set; }
+        /// <summary>
+        /// 刷新状态
+        /// </summary>
         public void Refresh()
         {
             Notify(new { IsValid, IsEnabled });
