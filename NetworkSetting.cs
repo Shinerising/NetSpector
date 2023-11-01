@@ -175,7 +175,7 @@ namespace NetSpector
     /// <summary>
     /// 与INI配置文件所对应的网络配置信息
     /// </summary>
-    public struct NetworkConfig
+    public class NetworkConfig
     {
         /// <summary>
         /// 本机标识
@@ -206,7 +206,7 @@ namespace NetSpector
     /// <summary>
     /// 防火墙状态
     /// </summary>
-    public struct FirewallState
+    public class FirewallState
     {
         /// <summary>
         /// 防火墙是否启用
